@@ -3,9 +3,9 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
-import buyerRouter from "./routes/buyer.routes.js";
-import sellerRouter from "./routes/seller.routes.js";
-import lorryRouter from "./routes/lorry.routes.js";
+import buyerRouter from "./buyer/buyer.routes.js";
+import sellerRouter from "./seller/seller.routes.js";
+import lorryRouter from "./lorry/lorry.routes.js";
 import orderRouter from "./routes/order.routes.js";
 
 dotenv.config();

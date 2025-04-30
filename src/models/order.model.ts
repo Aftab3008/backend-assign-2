@@ -1,36 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-
-export enum OrderStatus {
-  Pending = "Pending",
-  Accepted = "Accepted",
-  Rejected = "Rejected",
-  Cancelled = "Cancelled",
-  Paid = "Paid",
-  Assigned = "Assigned",
-  Assign_Pending = "Assign Pending",
-  PickUpVerified = "Pickup Verified",
-  InTransit = "In Transit",
-  Pending_delivery = "Pending Delivery",
-  Delivered = "Delivered",
-}
-
-export interface IOrder extends Document {
-  _id: mongoose.Types.ObjectId;
-  buyer: mongoose.Types.ObjectId;
-  seller: mongoose.Types.ObjectId;
-  product: mongoose.Types.ObjectId;
-  lorry?: mongoose.Types.ObjectId;
-  bidPrice: number;
-  quantity: number;
-  status: OrderStatus;
-  totalCost: number;
-  transportCost: number;
-  otp?: string;
-  buyerLocation: {
-    type: "Point";
-    coordinates: [number, number];
-  };
-}
+import mongoose, { Model, Schema } from "mongoose";
+import { IOrder, OrderStatus } from "../types/index.js";
 
 const OrderSchema: Schema = new Schema(
   {

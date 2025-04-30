@@ -1,20 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-
-export interface ILorry extends Document {
-  _id: mongoose.Types.ObjectId;
-  agencyName: string;
-  phone: string;
-  email: string;
-  gps: {
-    type: "Point";
-    coordinates: [number, number];
-  };
-  available: boolean;
-  vehicleNumber: string;
-  driverName: string;
-  driverPhone: string;
-  currentOrder?: mongoose.Types.ObjectId;
-}
+import mongoose, { Model, Schema } from "mongoose";
+import { ILorry } from "../types/index.js";
 
 const LorrySchema: Schema<ILorry> = new Schema(
   {
@@ -31,6 +16,15 @@ const LorrySchema: Schema<ILorry> = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      validate: {
+        validator: (v: string) => v.length >= 6,
+        message: () => `Password must be at least 6 characters long!`,
+      },
     },
     gps: {
       type: {

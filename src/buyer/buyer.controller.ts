@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { TRANSPORT_RATE_PER_KM } from "../constants/index.js";
-import { Buyer } from "../models/buyer.model.js";
-import { Order, OrderStatus } from "../models/order.model.js";
+import { Buyer } from "../buyer/buyer.model.js";
+import { Order } from "../models/order.model.js";
 import { Product } from "../models/product.model.js";
-import { ISeller, Seller } from "../models/seller.model.js";
-import { RequestExtend } from "../types/index.js";
+import { ISeller, Seller } from "../seller/seller.model.js";
+import { RequestExtend, OrderStatus } from "../types/index.js";
 import { haversineKm } from "../utils/index.js";
 import generateTokenAndCookie from "../utils/jwt.js";
 
@@ -192,7 +192,6 @@ export const getRiceMillsNearby = async (req: RequestExtend, res: Response) => {
       return;
     }
     const buyerCoords: [number, number] = [+lng, +lat];
-
     const nearby: Array<ISeller & { distance: number }> =
       await Seller.aggregate([
         {

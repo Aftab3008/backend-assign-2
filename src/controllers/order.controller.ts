@@ -1,8 +1,9 @@
 import { Response } from "express";
 import { RequestExtend } from "../types/index.js";
-import { Order, OrderStatus } from "../models/order.model.js";
-import { ISeller } from "../models/seller.model.js";
-import { Lorry } from "../models/lorry.model.js";
+import { Order } from "../models/order.model.js";
+import { ISeller } from "../seller/seller.model.js";
+import { Lorry } from "../lorry/lorry.model.js";
+import { OrderStatus } from "../types/index.js";
 
 export const updateOrderStatus = async (req: RequestExtend, res: Response) => {
   try {
@@ -80,9 +81,9 @@ export const paymentStatus = async (req: RequestExtend, res: Response) => {
       order.lorry = nearestLorry._id;
       order.status = OrderStatus.Assign_Pending;
       await order.save();
+      //TODO:send notification to lorry agency
+      //TODO:send otp to buyer
     }
-    //TODO:send notification to lorry agency
-    //TODO:send otp to buyer
     res.status(201).json({
       message: "Payment successful",
       order: {

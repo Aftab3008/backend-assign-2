@@ -16,12 +16,15 @@ This is a Node.js-based backend project developed as part of the **Kuteeram Inte
 ```bash
 backend-assign-2/
 ├── src/
+    ├── buyer/
     ├── config/
     ├── constants/
     ├── controllers/
+    ├── lorry/
     ├── middleware/
     ├── models/
     ├── routes/
+    ├── seller/
     ├── types/
     ├── utils/
     ├── index.ts          # Entry point of the application
@@ -52,13 +55,23 @@ git clone https://github.com/Aftab3008/backend-assign-2
 cd backend-assign-2
 ```
 
-2. **Install dependencies**
+2. **Env variables required**
+
+```bash
+PORT=
+MONGODB_URI=
+JWT_SECRET=
+JWT_EXPIRES=
+ADMIN_EMAIL=
+```
+
+3. **Install dependencies**
 
 ```bash
 npm install
 ```
 
-3. **Start the server**
+4. **Start the server**
 
 ```bash
 npm run dev

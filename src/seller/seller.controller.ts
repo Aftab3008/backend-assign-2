@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { Seller } from "../models/seller.model.js";
+import { Seller } from "../seller/seller.model.js";
 import { Product } from "../models/product.model.js";
-import { Order, OrderStatus } from "../models/order.model.js";
+import { Order } from "../models/order.model.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import generateTokenAndCookie from "../utils/jwt.js";
 import { RequestExtend } from "../types/index.js";
+import { OrderStatus } from "../types/index.js";
 
 export const registerSeller = async (req: Request, res: Response) => {
   try {

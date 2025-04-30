@@ -9,7 +9,7 @@ import {
   markAvailable,
   getSellerDetails,
   acceptOrder,
-} from "../controllers/seller.controller.js";
+} from "../seller/seller.controller.js";
 import { sellerMiddleware } from "../middleware/seller.middleware.js";
 
 const router = Router();

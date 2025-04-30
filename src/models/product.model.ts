@@ -1,17 +1,10 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-
-export interface IProduct extends Document {
-  seller: mongoose.Types.ObjectId;
-  type: string;
-  quantity: number;
-  price: number;
-  available: boolean;
-}
+import mongoose, { Model, Schema } from "mongoose";
+import { IProduct } from "../types/index.js";
 
 const ProductSchema: Schema = new Schema(
   {
     seller: { type: Schema.Types.ObjectId, ref: "Seller", required: true },
-    type: { type: String, required: true },
+    type: { type: String, required: true, set: (v: string) => v.toLowerCase() },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
     available: { type: Boolean, default: false },

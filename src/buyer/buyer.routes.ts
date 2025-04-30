@@ -9,7 +9,7 @@ import {
   placeBid,
   registerBuyer,
   searchProducts,
-} from "../controllers/buyer.controller.js";
+} from "../buyer/buyer.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { buyerMiddleware } from "../middleware/buyer.middleware.js";
 

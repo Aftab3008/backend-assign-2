@@ -1,12 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-
-export interface IBuyer extends Document {
-  _id: string;
-  name: string;
-  phone: string;
-  email: string;
-  password: string;
-}
+import mongoose, { Model, Schema } from "mongoose";
+import { IBuyer } from "../types/index.js";
 
 const BuyerSchema: Schema = new Schema(
   {
