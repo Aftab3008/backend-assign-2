@@ -8,6 +8,7 @@ import { ISeller, Seller } from "../seller/seller.model.js";
 import { RequestExtend, OrderStatus } from "../types/index.js";
 import { haversineKm } from "../utils/index.js";
 import generateTokenAndCookie from "../utils/jwt.js";
+import { getIO } from "../socket.js";
 
 export const registerBuyer = async (req: Request, res: Response) => {
   try {
@@ -310,7 +311,7 @@ export const placeBid = async (req: RequestExtend, res: Response) => {
     const transportCost = distanceKm * 10;
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
+    const io = getIO();
     const order = await Order.create({
       buyer: buyerId,
       seller: seller._id,
@@ -330,7 +331,13 @@ export const placeBid = async (req: RequestExtend, res: Response) => {
       return;
     }
 
-    //Todo: notify the seller
+    io.to(seller._id.toString()).emit("newBid", {
+      orderId: order._id,
+      buyerId,
+      productId,
+      bidPrice,
+      quantity,
+    });
 
     res.status(201).json({
       sellerDisplay: `${seller.city} Rice Mill #${seller.millName}`,

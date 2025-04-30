@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import generateTokenAndCookie from "../utils/jwt.js";
 import { RequestExtend } from "../types/index.js";
 import { OrderStatus } from "../types/index.js";
+import { getIO } from "../socket.js";
 
 export const registerSeller = async (req: Request, res: Response) => {
   try {
@@ -341,7 +342,11 @@ export const acceptOrder = async (req: RequestExtend, res: Response) => {
     await existingOrder.save();
     await product.save();
 
-    //Todo Send notification to the buyer (if applicable)
+    const io = getIO();
+    io.to(existingOrder.buyer.toString()).emit("orderAccepted", {
+      orderId: existingOrder._id,
+      status: existingOrder.status,
+    });
 
     res.status(200).json({
       message: "Order accepted successfully",

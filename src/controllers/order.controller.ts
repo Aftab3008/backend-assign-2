@@ -4,6 +4,7 @@ import { Order } from "../models/order.model.js";
 import { ISeller } from "../seller/seller.model.js";
 import { Lorry } from "../lorry/lorry.model.js";
 import { OrderStatus } from "../types/index.js";
+import { getIO } from "../socket.js";
 
 export const updateOrderStatus = async (req: RequestExtend, res: Response) => {
   try {
@@ -81,8 +82,22 @@ export const paymentStatus = async (req: RequestExtend, res: Response) => {
       order.lorry = nearestLorry._id;
       order.status = OrderStatus.Assign_Pending;
       await order.save();
-      //TODO:send notification to lorry agency
-      //TODO:send otp to buyer
+      const io = getIO();
+      io.to(order.seller._id.toString()).emit("paymentReceived", {
+        orderId: order._id,
+        buyerId: order.buyer,
+        totalCost: order.totalCost,
+      });
+      io.to(userId).emit("orderUpdated", {
+        orderId: order._id,
+        status: order.status,
+        lorry: nearestLorry
+          ? {
+              agencyName: nearestLorry.agencyName,
+              vehicleNumber: nearestLorry.vehicleNumber,
+            }
+          : null,
+      });
     }
     res.status(201).json({
       message: "Payment successful",
